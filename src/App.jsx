@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -7,7 +8,7 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState("");
   return (
     <>
       <NavBar />
@@ -20,7 +21,10 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
       {/* //logged in */}
-      {!token ? <SignUpForm setToken={setToken} /> : <p>You are registered!</p>}
+      <Register setToken={setToken} />
+      <Login setToken={setToken} />
+      <Account token={token} />
+      {!token ? <Register setToken={setToken} /> : <p>You are registered!</p>}
     </>
   );
 }
