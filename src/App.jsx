@@ -7,6 +7,7 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 
 function App() {
+  const [token, setToken] = useState(null);
   return (
     <>
       <NavBar />
@@ -18,6 +19,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      {/* //logged in */}
+      {!token ? <SignUpForm setToken={setToken} /> : <p>You are registered!</p>}
     </>
   );
 }
