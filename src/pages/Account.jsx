@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import LoginForm from "./LoginForm";
-import Register from "./Register";
+import Login from "./Login.jsx";
+import Register from "./Register.jsx";
 
 export default function Account() {
   const [token, setTokenState] = useState(null);
@@ -17,7 +17,7 @@ export default function Account() {
     }
   };
 
-  //check localStorage for existing token
+  // On mount: check localStorage for existing token
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
@@ -63,7 +63,7 @@ export default function Account() {
   return (
     <div>
       {mode === "login" ? (
-        <LoginForm setToken={setToken} />
+        <Login setToken={setToken} />
       ) : (
         <Register setToken={setToken} />
       )}

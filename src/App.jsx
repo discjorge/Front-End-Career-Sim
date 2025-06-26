@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -8,7 +8,16 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 
 function App() {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
+
   return (
     <>
       <NavBar />
@@ -16,15 +25,13 @@ function App() {
         <Route path="/" element={<Navigate to="/books" />} />
         <Route path="/books" element={<Books />} />
         <Route path="/books/:id" element={<BookDetails />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/account"
+          element={<Account token={token} setToken={setToken} />}
+        />
+        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/register" element={<Register setToken={setToken} />} />
       </Routes>
-      {/* //logged in */}
-      <Register setToken={setToken} />
-      <Login setToken={setToken} />
-      <Account token={token} />
-      {!token ? <Register setToken={setToken} /> : <p>You are registered!</p>}
     </>
   );
 }
